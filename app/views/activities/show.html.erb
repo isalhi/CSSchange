@@ -95,3 +95,26 @@
 
   <!-- <%=button_to 'Going!', user_acts_path(:id_activity => @activity[:id], :id_user => current_user[:id]) %> -->
 </p>
+<h1>Forum about this activity</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Creator</th>
+      <th>Title</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+
+  <tbody>
+	  <%@mes = Mesaje.where(id_activity: @idmes)%>
+      <% @mes.each do |mesaje| %>
+      <tr>
+        
+        <td><%= mesaje.id_creator%></td>
+        <td><%= mesaje.title %></td>
+        <td><%= mesaje.description %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

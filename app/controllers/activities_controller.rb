@@ -2,7 +2,7 @@ class ActivitiesController < ApplicationController
     before_action :set_activity, :only => [:show, :edit, :update, :destroy, :set_user]
   before_filter :authenticate, :only => [:edit, :update, :destroy, :index]
   before_filter :correct_user, :only => [:edit, :update, :destroy]
-    before_action :set_user, :only => [:correct_user]
+    before_action :set_user, :only => [:correct_user, :show]
      respond_to :html
 
   # GET /activities
@@ -29,6 +29,8 @@ class ActivitiesController < ApplicationController
   # GET /activities/1
   # GET /activities/1.json
   def show
+   
+    
   end
 
   def unite
@@ -59,9 +61,10 @@ class ActivitiesController < ApplicationController
   def create
    @activity  = Activity.new(activity_params)
       @activity.id_creator = current_user[:id]
-   
-      respond_to do |format|
+      
+       respond_to do |format|
       if @activity.save
+        
         format.html { redirect_to @activity, notice: 'Activity was successfully created.' }
         format.json { render action: 'show', status: :created, location: @activity }
       else
@@ -109,6 +112,7 @@ class ActivitiesController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_activity
       @activity = Activity.find(params[:id])
+      @idmes = @activity.id
     end
     
     def set_user

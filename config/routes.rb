@@ -2,6 +2,8 @@ SampleApp::Application.routes.draw do
   
   
 
+  resources :mesajes
+
   resources :searches
 
   resources :cathegories

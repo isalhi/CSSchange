@@ -10,6 +10,9 @@
 #
 require 'digest'
 class User < ActiveRecord::Base
+  acts_as_messageable
+    
+  has_many :mesajes
     
     has_many :user_acts
     has_many :activities, :through => :user_acts
@@ -19,7 +22,7 @@ class User < ActiveRecord::Base
     
     validates :name, :presence => true,
                      :uniqueness => true,
-                     :length => { :minimum => 3, :maximum => 6}
+                     :length => { :minimum => 3, :maximum => 20}
     
     validates :email, :presence => true,
                       :format => { :with => email_regex }

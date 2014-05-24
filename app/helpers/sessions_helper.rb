@@ -36,6 +36,14 @@ module SessionsHelper
         !current_user.nil?
     end
     
+    def admin_true?(user)
+      user.admin.nil?
+    end
+    
+    def admin_user?
+      !current_user.name == "administrator"
+    end
+    
     def redirect_back_or(default)
         redirect_to(session[:return_to] || default)
         clear_return_to

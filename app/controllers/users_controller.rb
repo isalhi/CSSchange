@@ -2,6 +2,7 @@ class UsersController < ApplicationController
     before_action :set_user, only: [:show, :edit, :update, :destroy, :correct_user]
     before_filter :authenticate, :only => [:edit, :update, :destroy, :index]
     before_filter :correct_user, :only => [:edit, :update, :destroy]
+    before_filter :admin_user, :only => [:user_params_admin]
 
   # GET /users
   # GET /users.json
@@ -44,6 +45,15 @@ class UsersController < ApplicationController
   # PATCH/PUT /users/1.json
   def update
     respond_to do |format|
+      if admin_user?
+      if @user.update(user_params_admin)
+        format.html { redirect_to @user, notice: 'User was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: 'edit' }
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    else
       if @user.update(user_params)
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
         format.json { head :no_content }
@@ -52,6 +62,7 @@ class UsersController < ApplicationController
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end
+  end
   end
 
   # DELETE /users/1
@@ -84,7 +95,7 @@ class UsersController < ApplicationController
    
     
     def correct_user
-        redirect_to(home_path) unless current_user?(@user)
+        redirect_to(home_path) unless current_user?(@user) or admin_user?
     end
             
    
@@ -97,4 +108,17 @@ class UsersController < ApplicationController
     def user_params
         params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
+    
+    def admin_user?
+      current_user.name == "administrator"
+    end
+    
+    def admin_user
+      !admin_user?
+    end
+    
+    def user_params_admin
+        params.require(:user).permit(:name, :email, :password, :password_confirmation, :admin)
+    end
+    
 end

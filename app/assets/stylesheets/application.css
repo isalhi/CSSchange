@@ -16,3 +16,7 @@
   -webkit-border-radius: 10px;
   border-radius:         10px;
 }
+
+div.name {
+	font-size: 5em;
+}
